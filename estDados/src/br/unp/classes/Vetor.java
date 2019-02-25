@@ -32,6 +32,10 @@ public class Vetor {
         return false;
     }
 
+    private boolean posicaoOcupada (int posicao){
+        return posicao >= 0 && posicao < this.totalDeAlunos;
+    }
+
     @Override
     public String toString(){
         if (this.totalDeAlunos == 0) {
