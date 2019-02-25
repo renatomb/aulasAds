@@ -13,21 +13,25 @@ import java.util.Arrays;
 public class Vetor {
     private Aluno[] alunos = new Aluno[100];
     private int totalDeAlunos = 0;
-    
+
     public void adiciona(Aluno aluno) {
         this.alunos[this.totalDeAlunos] = aluno;
         this.totalDeAlunos++;
     }
-    
+
+    public int tamanho(){
+        return this.totalDeAlunos;
+    }
+
     @Override
     public String toString(){
         if (this.totalDeAlunos == 0) {
-            return "[]";
+            return "[ ]";
         }
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder(); // Classe que permite manipular String's dinamicamente
         builder.append("[");
         for (int i=0; i < this.totalDeAlunos -1; i++) {
-            builder.append(this.alunos[i]);
+            builder.append(this.alunos[i]); // Concatenando String's dinamicamente
             builder.append(", ");
         }
         builder.append(this.alunos[this.totalDeAlunos -1]);
@@ -35,5 +39,5 @@ public class Vetor {
         return builder.toString();
         //return Arrays.toString(alunos);
     }
-    
+
 }

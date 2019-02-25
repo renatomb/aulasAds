@@ -28,6 +28,7 @@ public class Aplicacao {
 //        lista.adiciona(a2);
 //        lista.adiciona(a3);
         System.out.println(lista.toString());
+        System.out.println("Temos "+lista.tamanho()+" aluno(s)");
     }
-    
+
 }
