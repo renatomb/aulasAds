@@ -36,6 +36,13 @@ public class Vetor {
         return posicao >= 0 && posicao < this.totalDeAlunos;
     }
 
+    public Aluno pega(int posicao) {
+        if (!this.posicaoOcupada(posicao)) {
+            throw new IllegalArgumentException("Posição inválida");
+        }
+        return this.alunos[posicao];
+    }
+
     @Override
     public String toString(){
         if (this.totalDeAlunos == 0) {
