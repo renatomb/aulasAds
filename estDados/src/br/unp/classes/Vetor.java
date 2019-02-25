@@ -14,8 +14,18 @@ public class Vetor {
     private Aluno[] alunos = new Aluno[100];
     private int totalDeAlunos = 0;
 
-    public void adiciona(Aluno aluno) {
+/*    public void adiciona(Aluno aluno) {
         this.alunos[this.totalDeAlunos] = aluno;
+        this.totalDeAlunos++;
+    } */
+    public void adiciona(int posicao, Aluno aluno) {
+        if (!this.posicaoValida(posicao)) {
+            throw new IllegalArgumentException("Posição inválida");
+        }
+        for (int i = this.totalDeAlunos - 1; i >= posicao; i-=1) {
+            this.alunos[i + 1] = this.alunos[i];
+        }
+        this.alunos[posicao] = aluno;
         this.totalDeAlunos++;
     }
 
