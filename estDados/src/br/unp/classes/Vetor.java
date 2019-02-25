@@ -23,6 +23,15 @@ public class Vetor {
         return this.totalDeAlunos;
     }
 
+    public boolean contem(Aluno aluno) {
+        for (int i = 0; i < this.totalDeAlunos; i++) {
+            if (aluno.equals(this.alunos[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString(){
         if (this.totalDeAlunos == 0) {

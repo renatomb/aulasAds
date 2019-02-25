@@ -20,13 +20,16 @@ public class Aplicacao {
         Aluno a1 = new Aluno();
         Aluno a2 = new Aluno();
         Aluno a3 = new Aluno();
+        Aluno a4 = new Aluno();
         a1.setNome("Rafael");
         a2.setNome("Paulo");
         a3.setNome("Xavier");
+        a4.setNome("Diego");
         Vetor lista = new Vetor();
 //        lista.adiciona(a1);
 //        lista.adiciona(a2);
 //        lista.adiciona(a3);
+        System.out.println(lista.contem(a4));
         System.out.println(lista.toString());
         System.out.println("Temos "+lista.tamanho()+" aluno(s)");
     }
