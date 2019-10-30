@@ -67,11 +67,11 @@ class ProdutoForm extends TPage {
             TTransaction::open('nossobanco');
 
             if (empty($param['nomeproduto'])) {
-                throw new Exception(AdiantiCoreTranslator::translate('The field ^1 is required', 'Nome'));
+                throw new Exception(AdiantiCoreTranslator::translate('The field ^1 is required', 'Nome Produto'));
             }
 
             // read the form data and instantiates an Active Record
-            $cadastro = new Cliente;
+            $cadastro = new Produto;
             $cadastro->fromArray($param);
 
             // stores the object in the database
@@ -102,7 +102,7 @@ class ProdutoForm extends TPage {
                 TTransaction::open('nossobanco');
 
                 // load the Active Record according to its ID
-                $cadastro = new Cliente($param['id']);
+                $cadastro = new Produto($param['id']);
 
                 // fill the form with the active record data
                 $this->form->setData($cadastro);

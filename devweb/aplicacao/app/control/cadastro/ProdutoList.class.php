@@ -24,8 +24,8 @@ class ProdutoList extends TPage
         parent::__construct();
         
         // creates the form
-        $this->form = new BootstrapFormBuilder('form_search_Cliente');
-        $this->form->setFormTitle('Lista de Cliente');
+        $this->form = new BootstrapFormBuilder('form_search_Produto');
+        $this->form->setFormTitle('Lista de Produto');
         
         // create the form fields
         $name      = new TEntry('nomeproduto');
@@ -36,7 +36,7 @@ class ProdutoList extends TPage
         
         $this->form->addAction( 'Buscar', new TAction([$this, 'onSearch']), 'fa:search blue' );
         $this->form->addAction( 'CSV',  new TAction([$this, 'onExportCSV']), 'fa:table' );
-        $this->form->addActionLink( 'Novo',  new TAction(['ClienteForm', 'onEdit']), 'fa:plus green' );
+        $this->form->addActionLink( 'Novo',  new TAction(['ProdutoForm', 'onEdit']), 'fa:plus green' );
         
         // creates a DataGrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
@@ -272,7 +272,7 @@ class ProdutoList extends TPage
         {
             $key=$param['key']; // get the parameter $key
             TTransaction::open('nossobanco'); // open a transaction with database
-            $object = new Cliente($key, FALSE); // instantiates the Active Record
+            $object = new Produto($key, FALSE); // instantiates the Active Record
             $object->delete(); // deletes the object from the database
             TTransaction::close(); // close the transaction
             
