@@ -43,19 +43,22 @@ class ProdutoList extends TPage
         
         // creates the datagrid columns
         $col_id      = new TDataGridColumn('id', 'Id', 'center', '10%');
-        $col_name    = new TDataGridColumn('nomecliente', 'Nome', 'left', '50%');
-        $col_email    = new TDataGridColumn('email', 'E-Mail', 'left', '40%');
+        $col_name    = new TDataGridColumn('nomeproduto', 'Nome', 'left', '40%');
+        $col_qtdestoque    = new TDataGridColumn('qtdestoque', 'Estoque', 'left', '10%');
+        $col_valor    = new TDataGridColumn('valorvenda', 'Valor Venda', 'left', '40%');
         
         $col_id->setAction(new TAction([$this, 'onReload']), ['order' => 'id']);
-        $col_name->setAction(new TAction([$this, 'onReload']), ['order' => 'nomecliente']);
-        $col_email->setAction(new TAction([$this, 'onReload']), ['order' => 'email']);
+        $col_name->setAction(new TAction([$this, 'onReload']), ['order' => 'nomeproduto']);
+        $col_qtdestoque->setAction(new TAction([$this, 'onReload']), ['order' => 'qtdestoque']);
+        $col_valor->setAction(new TAction([$this, 'onReload']), ['order' => 'valorvenda']);
         
         $this->datagrid->addColumn($col_id);
         $this->datagrid->addColumn($col_name);
-        $this->datagrid->addColumn($col_email);
+        $this->datagrid->addColumn($col_qtdestoque);
+        $this->datagrid->addColumn($col_valor);
         
         // creates two datagrid actions
-        $action1 = new TDataGridAction(['ClienteForm', 'onEdit']);
+        $action1 = new TDataGridAction(['ProdutoForm', 'onEdit']);
         $action1->setLabel('Alterar');
         $action1->setImage('fa:edit blue');
         $action1->setField('id');
@@ -98,19 +101,19 @@ class ProdutoList extends TPage
         $data = $this->form->getData();
         
         // check if the user has filled the form
-        if (isset($data->nomecliente) AND ($data->nomecliente))
+        if (isset($data->nomeproduto) AND ($data->nomeproduto))
         {
             // creates a filter using what the user has typed
-            $filter = new TFilter('nomecliente', 'like', "{$data->name}%");
+            $filter = new TFilter('nomeproduto', 'like', "{$data->nomeproduto}%");
             
             // stores the filter in the session
-            TSession::setValue('Cliente_filter1', $filter);
-            TSession::setValue('Cliente_nome',   $data->name);
+            TSession::setValue('Produto_filter1', $filter);
+            TSession::setValue('Produto_nome',   $data->nomeproduto);
         }
         else
         {
-            TSession::setValue('Cliente_filter1', NULL);
-            TSession::setValue('Cliente_nome',   '');
+            TSession::setValue('Produto_filter1', NULL);
+            TSession::setValue('Produto_nome',   '');
         }
         
         // fill the form with data again
@@ -133,8 +136,8 @@ class ProdutoList extends TPage
             // open a transaction with database 'nossobanco'
             TTransaction::open('nossobanco');
             
-            // creates a repository for Cliente
-            $repository = new TRepository('Cliente');
+            // creates a repository for Produto
+            $repository = new TRepository('Produto');
             $limit = 10;
             
             // creates a criteria
@@ -152,10 +155,10 @@ class ProdutoList extends TPage
             $criteria->setProperties($newparam); // order, offset
             $criteria->setProperty('limit', $limit);
             
-            if (TSession::getValue('Cliente_filter1'))
+            if (TSession::getValue('Produto_filter1'))
             {
                 // add the filter stored in the session to the criteria
-                $criteria->add(TSession::getValue('Cliente_filter1'));
+                $criteria->add(TSession::getValue('Produto_filter1'));
             }
             
             // load the objects according to criteria
@@ -205,20 +208,20 @@ class ProdutoList extends TPage
             // open a transaction with database 'samples'
             TTransaction::open('nossobanco');
             
-            // creates a repository for Cliente
-            $repository = new TRepository('Cliente');
+            // creates a repository for Produto
+            $repository = new TRepository('Produto');
             
             // creates a criteria
             $criteria = new TCriteria;
             
-            if (TSession::getValue('Cliente_filter1'))
+            if (TSession::getValue('Produto_filter1'))
             {
                 // add the filter stored in the session to the criteria
-                $criteria->add(TSession::getValue('customer_filter1'));
+                $criteria->add(TSession::getValue('produto_filter1'));
             }
             
             $csv = '';
-            $csv .= 'id;nometipo'."\n";
+            $csv .= 'id;nomeproduto;qtdestoque,valorvenda'."\n";
             // load the objects according to criteria
             $dados = $repository->load($criteria, false);
             if ($dados)
@@ -226,10 +229,12 @@ class ProdutoList extends TPage
                 foreach ($dados as $dado)
                 {
                     $csv .= $dado->id.';'.
-                            $dado->nometipo."\n";
+                            $dado->nomeproduto.';'.
+                            $dado->qtdestoque.';'.
+                            $dado->valorvenda."\n";
                 }
-                file_put_contents('app/output/Cliente.csv', $csv);
-                TPage::openFile('app/output/Cliente.csv');
+                file_put_contents('app/output/Produto.csv', $csv);
+                TPage::openFile('app/output/Produto.csv');
             }
             // close the transaction
             TTransaction::close();

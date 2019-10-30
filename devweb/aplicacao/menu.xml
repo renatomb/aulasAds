@@ -11,6 +11,10 @@
         <icon>fa:group fa:fw</icon>
         <action>ClienteList</action>
       </menuitem>
+      <menuitem label="Produto List">
+        <icon>fa:circle-o fa:fw</icon>
+        <action>ProdutoList</action>
+      </menuitem>
     </menu>
   </menuitem>
   <menuitem label="_t{Administration}">
