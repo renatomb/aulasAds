@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ClienteForm
+ * ProdutoForm
  *
  * @version    1.0
  * @package    cadastro
@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2006 UnP (http://www.unp.br)
  * @license    http://www.unp.br
  */
-class ClienteForm extends TPage {
+class ProdutoForm extends TPage {
 
     private $form; // form
 
@@ -22,40 +22,15 @@ class ClienteForm extends TPage {
         parent::__construct();
 
         // creates the form
-        $this->form = new BootstrapFormBuilder('form_Cliente');
-        $this->form->setFormTitle('Cliente');
+        $this->form = new BootstrapFormBuilder('form_Produto');
+        $this->form->setFormTitle('Produto');
 
         // create the form fields
         $code = new TEntry('id');
-        $name = new TEntry('nomecliente');
+        $name = new TEntry('nomeproduto');
+        $qtdestoque = new TEntry('qtdestoque');
+        $valorvenda = new TEntry('valorvenda');
 
-        $tipocliente_id = new TDBCombo('tipocliente_id', 'nossobanco', 'TipoCliente', 'id', 'nometipo');
-        $dtnasc = new TDate('dtnasc');
-        $cpf = new TEntry('cpf');
-        $endereco = new TEntry('endereco');
-        $bairro = new TEntry('bairro');
-        $cidade = new TEntry('cidade');
-        $tel = new TEntry('tel');
-        $cep = new TEntry('cep');
-        $cel = new TEntry('cel');
-        $email = new TEntry('email');
-        $sexo = new TCombo('sexo');
-        $limite = new TEntry('limite');
-
-        $dtnasc->setMask('dd/mm/yyyy');
-        $dtnasc->setOption('startDate', '01/01/2019');
-        $dtnasc->setOption('autoclose', TRUE);
-        //$dtnasc->setOption('daysOfWeekDisabled');
-
-
-
-        $cpf->setMask('999.999.999-99');
-
-        $itemsexo = ['Masculino' => 'Masculino', 'Feminino' => 'Feminino'];
-        $sexo->addItems($itemsexo);
-
-        $sexo->setDefaultOption(FALSE);
-        // $sexo->setValue('Feminino');
         // define some properties for the form fields
         $code->setEditable(FALSE);
         $code->setSize('30%');
@@ -64,28 +39,18 @@ class ClienteForm extends TPage {
         $this->form->addFields([new TLabel('Code')], [$code]);
         $this->form->addFields([new TLabel('Nome')], [$name]);
 
-        $this->form->addFields([new TLabel('Tipo Cliente')], [$tipocliente_id]);
-        $this->form->addFields([new TLabel('Dt Nasc')], [$dtnasc]);
-        $this->form->addFields([new TLabel('CPF')], [$cpf]);
-        $this->form->addFields([new TLabel('Endereço')], [$endereco]);
-        $this->form->addFields([new TLabel('Bairro')], [$bairro]);
-        $this->form->addFields([new TLabel('Cidade')], [$cidade]);
-        $this->form->addFields([new TLabel('CEP')], [$cep]);
-        $this->form->addFields([new TLabel('Tel')], [$tel]);
-        $this->form->addFields([new TLabel('Cel')], [$cel]);
-        $this->form->addFields([new TLabel('E-Mail')], [$email]);
-        $this->form->addFields([new TLabel('Sexo')], [$sexo]);
-        $this->form->addFields([new TLabel('Limite')], [$limite]);
+        $this->form->addFields([new TLabel('Qtd Estoque')], [$qtdestoque]);
+        $this->form->addFields([new TLabel('Valor Venda')], [$valorvenda]);
 
 
         $this->form->addAction('Salvar', new TAction([$this, 'onSave']), 'fa:save green');
         $this->form->addAction('Limpar', new TAction([$this, 'onClear']), 'fa:eraser red');
-        $this->form->addActionLink('Listar', new TAction(['ClienteList', 'onReload']), 'fa:table blue');
+        $this->form->addActionLink('Listar', new TAction(['ProdutoList', 'onReload']), 'fa:table blue');
 
         // wrap the page content
         $vbox = new TVBox;
         $vbox->style = 'width: 100%';
-        $vbox->add(new TXMLBreadCrumb('menu.xml', 'ClienteList'));
+        $vbox->add(new TXMLBreadCrumb('menu.xml', 'ProdutoList'));
         $vbox->add($this->form);
 
         // add the form inside the page
@@ -101,7 +66,7 @@ class ClienteForm extends TPage {
             // open a transaction with database 'nossobanco'
             TTransaction::open('nossobanco');
 
-            if (empty($param['nomecliente'])) {
+            if (empty($param['nomeproduto'])) {
                 throw new Exception(AdiantiCoreTranslator::translate('The field ^1 is required', 'Nome'));
             }
 
@@ -114,7 +79,7 @@ class ClienteForm extends TPage {
 
             $data = new stdClass;
             $data->id = $cadastro->id;
-            TForm::sendData('form_Cliente', $data);
+            TForm::sendData('form_Produto', $data);
 
             // shows the success message
             new TMessage('info', 'Record saved');
